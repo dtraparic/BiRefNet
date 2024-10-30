@@ -1,26 +1,23 @@
 import os
 import math
-from pathlib import Path
+
 
 class Config():
     def __init__(self) -> None:
         # PATH settings
         # Make up your file system as: SYS_HOME_DIR/codes/dis/BiRefNet, SYS_HOME_DIR/datasets/dis/xx, SYS_HOME_DIR/weights/xx
-        # self.sys_home_dir = [os.path.expanduser('~'), '/mnt/data'][0]   # Default, custom
-        self.sys_home_dir = Path("C:/Users/David Traparic/Documents/prog/biref_retrain_root")
+        self.sys_home_dir = [os.path.expanduser('~'), '/mnt/data'][0]   # Default, custom
         self.data_root_dir = os.path.join(self.sys_home_dir, 'datasets/dis')
 
         # TASK settings
-        # self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting'][0]
-        self.task = 'ICEOD'
+        self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting'][0]
         self.testsets = {
             # Benchmarks
             'DIS5K': ','.join(['DIS-VD', 'DIS-TE1', 'DIS-TE2', 'DIS-TE3', 'DIS-TE4']),
             'COD': ','.join(['CHAMELEON', 'NC4K', 'TE-CAMO', 'TE-COD10K']),
             'HRSOD': ','.join(['DAVIS-S', 'TE-HRSOD', 'TE-UHRSD', 'DUT-OMRON', 'TE-DUTS']),
             # Practical use
-            'General': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
-            'ICEOD': 'DIS-VD',
+            'ICE_OBJ': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
             'General-2K': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
             'Matting': ','.join(['TE-P3M-500-NP', 'TE-AM-2k']),
         }[self.task]
@@ -29,8 +26,7 @@ class Config():
             'DIS5K': ['DIS-TR', 'DIS-TR+DIS-TE1+DIS-TE2+DIS-TE3+DIS-TE4'][0],
             'COD': 'TR-COD10K+TR-CAMO',
             'HRSOD': ['TR-DUTS', 'TR-HRSOD', 'TR-UHRSD', 'TR-DUTS+TR-HRSOD', 'TR-DUTS+TR-UHRSD', 'TR-HRSOD+TR-UHRSD', 'TR-DUTS+TR-HRSOD+TR-UHRSD'][5],
-            'General': datasets_all,
-            'ICEOD': 'DIS-TR',
+            'ICE_OBJ': datasets_all,
             'General-2K': datasets_all,
             'Matting': datasets_all,
         }[self.task]
@@ -39,11 +35,10 @@ class Config():
         # Faster-Training settings
         self.load_all = False    # Turn it on/off by your case. It may consume a lot of CPU memory. And for multi-GPU (N), it would cost N times the CPU memory to load the data.
         self.use_fp16 = False   # It may cause nan in training.
-        # self.compile = True and (not self.use_fp16)     # 1. Trigger CPU memory leak in some extend, which is an inherent problem of PyTorch.
+        self.compile = True and (not self.use_fp16)     # 1. Trigger CPU memory leak in some extend, which is an inherent problem of PyTorch.
                                                         #   Machines with > 70GB CPU memory can run the whole training on DIS5K with default setting.
                                                         # 2. Higher PyTorch version may fix it: https://github.com/pytorch/pytorch/issues/119607.
                                                         # 3. But compile in Pytorch > 2.0.1 seems to bring no acceleration for training.
-        self.compile = False
         self.precisionHigh = True
 
         # MODEL settings
@@ -58,15 +53,14 @@ class Config():
         self.dec_blk = ['BasicDecBlk', 'ResBlk'][0]
 
         # TRAINING settings
-        self.batch_size = 2
+        self.batch_size = 4
         self.finetune_last_epochs = [
             0,
             {
                 'DIS5K': -40,
                 'COD': -20,
                 'HRSOD': -20,
-                'ICEOD': -40,
-                'General': -40,
+                'ICE_OBJ': -40,
                 'General-2K': -20,
                 'Matting': -20,
             }[self.task]
@@ -127,7 +121,7 @@ class Config():
                 'cnt': 5 * 0,
                 'structure': 5 * 0,
             }
-        elif self.task in ['ICEOD', 'General-2K']:
+        elif self.task in ['ICE_OBJ', 'General-2K']:
             self.lambdas_pix_last = {
                 'bce': 30 * 1,
                 'iou': 0.5 * 1,
