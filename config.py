@@ -7,8 +7,15 @@ class Config():
         # PATH settings
         # Make up your file system as: SYS_HOME_DIR/codes/dis/BiRefNet, SYS_HOME_DIR/datasets/dis/xx, SYS_HOME_DIR/weights/xx
         # self.sys_home_dir = [os.path.expanduser('~'), '/mnt/data'][0]   # Default, custom
-        self.sys_home_dir = Path("C:/Users/David Traparic/Documents/prog/biref_retrain_root")
-        self.data_root_dir = os.path.join(self.sys_home_dir, 'datasets/dis')
+        import platform
+        if platform.node() == "XLIM-TESLA2":
+            self.sys_home_dir = Path("/mnt/data")
+        elif platform.node() == "LAPTOP-Q637S09I":
+            self.sys_home_dir = Path("C:/Users/David Traparic/Documents/prog/biref_retrain_root")
+        else:
+            raise ValueError
+
+        self.data_root_dir = self.sys_home_dir / 'datasets' / 'dis'
 
         # TASK settings
         # self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting'][0]
