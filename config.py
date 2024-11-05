@@ -196,24 +196,20 @@ class Config():
 
         self.batch_size_valid = 1
         self.rand_seed = 7
-        run_sh_file = [f for f in os.listdir('.') if 'train.sh' == f] + [os.path.join('..', f) for f in os.listdir('..') if 'train.sh' == f]
-        run_sh_file = False  # I don't understand what it is
+        print(os.getcwd())
+
+        run_sh_file = list(self.sys_home_dir.glob('**/train.sh'))
         print(run_sh_file, self.task)
         if run_sh_file:
             with open(run_sh_file[0], 'r') as f:
                 lines = f.readlines()
-                print(self.task, lines)
-                try:
-                    self.save_last = int([l.strip() for l in lines if "'{}')".format(self.task) in l and 'val_last=' in l][0].split('val_last=')[-1].split()[0])
-                    self.save_step = int([l.strip() for l in lines if "'{}')".format(self.task) in l and 'step=' in l][0].split('step=')[-1].split()[0])
-                except:
-                    print(self.task, lines)
+                self.save_last = int([l.strip() for l in lines if f"'{self.task}')" in l and 'val_last=' in l][0].split('val_last=')[-1].split()[0])
+                self.save_step = int([l.strip() for l in lines if f"'{self.task}')" in l and 'step=' in l][0].split('step=')[-1].split()[0])
 
 
 # Return task for choosing settings in shell scripts.
 if __name__ == '__main__':
     import argparse
-
 
     parser = argparse.ArgumentParser(description='Only choose one argument to activate.')
     parser.add_argument('--print_task', action='store_true', help='print task name')
