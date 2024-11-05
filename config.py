@@ -9,7 +9,7 @@ class Config():
         # self.sys_home_dir = [os.path.expanduser('~'), '/mnt/data'][0]   # Default, custom
         import platform
         if platform.node() == "XLIM-TESLA2":
-            self.sys_home_dir = Path("/mnt/data")
+            self.sys_home_dir = Path("/media/data/SIC/dtrapa01/biref_retrain_root")
         elif platform.node() == "LAPTOP-Q637S09I":
             self.sys_home_dir = Path("C:/Users/David Traparic/Documents/prog/biref_retrain_root")
         else:
@@ -200,6 +200,9 @@ class Config():
 
         run_sh_file = list(self.sys_home_dir.glob('**/train.sh'))
         print(run_sh_file, self.task)
+
+        if not run_sh_file:
+            print(f"train.sh not found, sys_home_dir = {self.sys_home_dir}")
         if run_sh_file:
             with open(run_sh_file[0], 'r') as f:
                 lines = f.readlines()
