@@ -9,7 +9,8 @@ from config import Config
 
 config = Config()
 
-def build_backbone(bb_name, pretrained=True, params_settings=''):
+def build_backbone(bb_name, pretrained=True, params_settings='', verbose=True):
+    if verbose: print(f'[BUILD BACKBONE]: bb_name={bb_name}')
     if bb_name == 'vgg16':
         bb_net = list(vgg16(pretrained=VGG16_Weights.DEFAULT if pretrained else None).children())[0]
         bb = nn.Sequential(OrderedDict({'conv1': bb_net[:4], 'conv2': bb_net[4:9], 'conv3': bb_net[9:16], 'conv4': bb_net[16:23]}))
@@ -22,6 +23,7 @@ def build_backbone(bb_name, pretrained=True, params_settings=''):
     else:
         bb = eval('{}({})'.format(bb_name, params_settings))
         if pretrained:
+            if verbose: print("param", params_settings, config.weights, bb_name)
             bb = load_weights(bb, bb_name)
     return bb
 
