@@ -313,7 +313,6 @@ class Trainer:
             self.lr_scheduler_d.step()
         return self.loss_log.avg
 
-
 def main():
 
     trainer = Trainer(
@@ -334,4 +333,13 @@ def main():
         destroy_process_group()
 
 if __name__ == '__main__':
+    # from pathlib import Path
+    # path1 = Path("E:/DICE LTRT Dataset/ICEOD/DICE-TR/gt")
+    # path2 = Path("E:/DICE LTRT Dataset/ICEOD/DICE-TR/im")
+
+    # set(seq1).symmetric_difference(seq2)
+    # exit()
+
+    # python train.py --ckpt_dir ckpt --epochs 285 --dist False --resume weights\cv\BiRefNet-massive-bb_swin_v1_tiny-epoch_235.pth
+    # python train.py --ckpt_dir ckpt --epochs 285 --testsets NO --dist False --resume weights\cv\BiRefNet-massive-bb_swin_v1_tiny-epoch_235.pth
     main()

@@ -10,16 +10,19 @@ class Config():
         import platform
         if platform.node() == "XLIM-TESLA2":
             self.sys_home_dir = Path("/media/data/SIC/dtrapa01/biref_retrain_root")
+            self.data_root_dir = Path('/media/data/SIC/dtrapa01/DICE_LTRT_Dataset')
         elif platform.node() == "LAPTOP-Q637S09I":
             self.sys_home_dir = Path("C:/Users/David Traparic/Documents/prog/biref_retrain_root")
+            self.data_root_dir = Path('E:/DICE_LTRT_Dataset')
+            # self.data_root_dir = self.sys_home_dir / 'datasets' / 'dis'
         else:
             raise ValueError
 
-        self.data_root_dir = self.sys_home_dir / 'datasets' / 'dis'
 
         # TASK settings
         # self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting'][0]
-        self.task = 'ICEOD'
+        # self.task = 'ICEOD'
+        self.task = 'DIS5K'
         self.testsets = {
             # Benchmarks
             'DIS5K': ','.join(['DIS-VD', 'DIS-TE1', 'DIS-TE2', 'DIS-TE3', 'DIS-TE4']),
@@ -27,7 +30,7 @@ class Config():
             'HRSOD': ','.join(['DAVIS-S', 'TE-HRSOD', 'TE-UHRSD', 'DUT-OMRON', 'TE-DUTS']),
             # Practical use
             'General': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
-            'ICEOD': 'DIS-VD',
+            'ICEOD': 'DICE-VD',
             'General-2K': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
             'Matting': ','.join(['TE-P3M-500-NP', 'TE-AM-2k']),
         }[self.task]
@@ -37,7 +40,7 @@ class Config():
             'COD': 'TR-COD10K+TR-CAMO',
             'HRSOD': ['TR-DUTS', 'TR-HRSOD', 'TR-UHRSD', 'TR-DUTS+TR-HRSOD', 'TR-DUTS+TR-UHRSD', 'TR-HRSOD+TR-UHRSD', 'TR-DUTS+TR-HRSOD+TR-UHRSD'][5],
             'General': datasets_all,
-            'ICEOD': 'DIS-TR',
+            'ICEOD': 'DICE-TR',
             'General-2K': datasets_all,
             'Matting': datasets_all,
         }[self.task]
