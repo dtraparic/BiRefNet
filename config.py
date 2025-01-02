@@ -3,7 +3,7 @@ import math
 from pathlib import Path
 
 class Config():
-    def __init__(self) -> None:
+    def __init__(self, debug=False) -> None:
         # PATH settings
         # Make up your file system as: SYS_HOME_DIR/codes/dis/BiRefNet, SYS_HOME_DIR/datasets/dis/xx, SYS_HOME_DIR/weights/xx
         # self.sys_home_dir = [os.path.expanduser('~'), '/mnt/data'][0]   # Default, custom
@@ -54,7 +54,7 @@ class Config():
                                                         # 2. Higher PyTorch version may fix it: https://github.com/pytorch/pytorch/issues/119607.
                                                         # 3. But compile in Pytorch > 2.0.1 seems to bring no acceleration for training.
         # compile = True only if system is linux
-        print("OS:", os.name)
+        if debug: print("OS:", os.name)
         if os.name != 'posix':
             self.compile = False
 
@@ -199,10 +199,10 @@ class Config():
 
         self.batch_size_valid = 1
         self.rand_seed = 7
-        print(os.getcwd())
+        if debug: print(os.getcwd())
 
         run_sh_file = list(self.sys_home_dir.glob('**/train.sh'))
-        print(run_sh_file, self.task)
+        if debug: print(run_sh_file, self.task)
 
         if not run_sh_file:
             print(f"train.sh not found, sys_home_dir = {self.sys_home_dir}")
@@ -222,7 +222,7 @@ if __name__ == '__main__':
     parser.add_argument('--print_testsets', action='store_true', help='print validation set')
     args = parser.parse_args()
 
-    config = Config()
+    config = Config(debug=False)
     for arg_name, arg_value in args._get_kwargs():
         if arg_value:
             print(config.__getattribute__(arg_name[len('print_'):]))

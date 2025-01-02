@@ -24,8 +24,6 @@ def path_to_image(path, size=(1024, 1024), color_type=['rgb', 'gray'][0]):
         image = Image.fromarray(image).convert('L')
     return image
 
-
-
 def check_state_dict(state_dict, unwanted_prefix='_orig_mod.'):
     for k, v in list(state_dict.items()):
         if k.startswith(unwanted_prefix):
