@@ -82,8 +82,13 @@ def main(args):
 if __name__ == '__main__':
     # Parameter from command line
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('--ckpt', type=str, help='model folder')
-    parser.add_argument('--ckpt_folder', default=sorted(glob(os.path.join('ckpt', '*')))[-1], type=str, help='model folder')
+    from pathlib import Path
+
+
+    ckpt_name = "BiRefNet-massive-bb_swin_v1_tiny-epoch_235.pth"
+    # parser.add_argument('--ckpt_folder', default=sorted(glob(os.path.join('ckpt', '*.pth')))[-1], type=str, help='model folder')
+    parser.add_argument('--ckpt', default=ckpt_name, type=str, help='model folder')
+    parser.add_argument('--ckpt_folder', default=str(config.sys_home_dir), type=str, help='model folder')
     parser.add_argument('--pred_root', default='e_preds', type=str, help='Output folder')
     parser.add_argument('--testsets',
                         default=config.testsets.replace(',', '+'),
