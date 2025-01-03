@@ -85,10 +85,12 @@ if __name__ == '__main__':
     from pathlib import Path
 
 
-    ckpt_name = "BiRefNet-massive-bb_swin_v1_tiny-epoch_235.pth"
+    # ckpt_name = "BiRefNet-massive-bb_swin_v1_tiny-epoch_235.pth"
     # parser.add_argument('--ckpt_folder', default=sorted(glob(os.path.join('ckpt', '*.pth')))[-1], type=str, help='model folder')
-    parser.add_argument('--ckpt', default=ckpt_name, type=str, help='model folder')
-    parser.add_argument('--ckpt_folder', default=str(config.sys_home_dir), type=str, help='model folder')
+    # ckpt_name = list((config.sys_home_dir / 'codes' / 'dis' / 'BiRefNet' / 'ckpt').glob('*.pth'))[-1]
+    ckpt_folder = str(config.sys_home_dir / 'codes' / 'dis' / 'BiRefNet' / 'ckpt')
+    parser.add_argument('--ckpt', type=str, help='model folder')
+    parser.add_argument('--ckpt_folder', default=ckpt_folder, type=str, help='model folder')
     parser.add_argument('--pred_root', default='e_preds', type=str, help='Output folder')
     parser.add_argument('--testsets',
                         default=config.testsets.replace(',', '+'),
