@@ -56,6 +56,7 @@ def main(args):
         key=lambda x: int(x.split('epoch_')[-1].split('.pth')[0]),
         reverse=True
     )
+    assert weights_lst, f'No weights found in {args.ckpt_folder if args.ckpt_folder else args.ckpt}'
     for testset in args.testsets.split('+'):
         print('>>>> Testset: {}...'.format(testset))
         data_loader_test = torch.utils.data.DataLoader(
