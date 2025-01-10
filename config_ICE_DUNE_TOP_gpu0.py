@@ -12,7 +12,7 @@ class Config():
 
         # TASK settings
         self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting',
-                     'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE'][-1]  # original repo= [0]
+                     'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE'][-2]  # original repo= [0]
         self.testsets = {
             # Benchmarks
             'DIS5K': ','.join(['DIS-VD', 'DIS-TE1', 'DIS-TE2', 'DIS-TE3', 'DIS-TE4']),
@@ -195,7 +195,7 @@ class Config():
         self.SDPA_enabled = False    # Bugs. Slower and errors occur in multi-GPUs
 
         # others
-        self.device = [2, 'cpu'][0]     # .to(0) == .to('cuda:0')
+        self.device = [0, 'cpu'][0]     # .to(0) == .to('cuda:0')
 
         self.batch_size_valid = 4  # original repo = 1
         self.rand_seed = 7
