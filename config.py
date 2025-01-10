@@ -48,6 +48,7 @@ class Config():
                                                         #   Machines with > 70GB CPU memory can run the whole training on DIS5K with default setting.
                                                         # 2. Higher PyTorch version may fix it: https://github.com/pytorch/pytorch/issues/119607.
                                                         # 3. But compile in Pytorch > 2.0.1 seems to bring no acceleration for training.
+        self.compile = False   # True in original repo
         # compile = True only if system is linux
         if debug: print("OS:", os.name)
         if os.name != 'posix':
