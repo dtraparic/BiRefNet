@@ -11,7 +11,8 @@ class Config():
         # self.data_root_dir = self.sys_home_dir / 'datasets' / 'dis'
 
         # TASK settings
-        self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting', 'ICEODDUNE', 'ICEODTOPGUN'][-1]  # original repo= [0]
+        self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting',
+                     'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE'][-2]  # original repo= [0]
         self.testsets = {
             # Benchmarks
             'DIS5K': ','.join(['DIS-VD', 'DIS-TE1', 'DIS-TE2', 'DIS-TE3', 'DIS-TE4']),
@@ -19,8 +20,10 @@ class Config():
             'HRSOD': ','.join(['DAVIS-S', 'TE-HRSOD', 'TE-UHRSD', 'DUT-OMRON', 'TE-DUTS']),
             # Practical use
             'General': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
-            'ICEODDUNE': 'DICETOPGUN-VD',
-            'ICEODTOPGUN': 'DICETOPGUN-VD',
+            'ICEOD_DUNE': 'DICETOP-VD',
+            'ICEOD_TOP': 'DICETOP-VD',
+            'ICEOD_DUNE_TOP': 'DICE_DUNE_TOP-VD',
+            'ICEOD_TOP_DUNE': 'DICE_TOP_DUNE-VD',
             'General-2K': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
             'Matting': ','.join(['TE-P3M-500-NP', 'TE-AM-2k']),
         }[self.task]
@@ -30,8 +33,9 @@ class Config():
             'COD': 'TR-COD10K+TR-CAMO',
             'HRSOD': ['TR-DUTS', 'TR-HRSOD', 'TR-UHRSD', 'TR-DUTS+TR-HRSOD', 'TR-DUTS+TR-UHRSD', 'TR-HRSOD+TR-UHRSD', 'TR-DUTS+TR-HRSOD+TR-UHRSD'][5],
             'General': datasets_all,
-            'ICEODDUNE': 'DICETOPGUN-TR',
-            'ICEODTOPGUN': 'DICETOPGUN-TR',
+            'ICEOD_DUNE': 'DICETOP-TR',
+            'ICEOD_DUNE_TOP': 'DICE_DUNE_TOP-TR',
+            'ICEOD_TOP_DUNE': 'DICE_TOP_DUNE-TR',
             'General-2K': datasets_all,
             'Matting': datasets_all,
         }[self.task]
@@ -132,7 +136,7 @@ class Config():
                 'cnt': 5 * 0,
                 'structure': 5 * 0,
             }
-        elif self.task in ['ICEOD', 'General-2K']:
+        elif self.task in ['ICEOD' 'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE', 'General-2K']:
             self.lambdas_pix_last = {
                 'bce': 30 * 1,
                 'iou': 0.5 * 1,
