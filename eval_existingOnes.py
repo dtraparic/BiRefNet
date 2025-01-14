@@ -14,9 +14,10 @@ def do_eval(args):
     # evaluation for whole dataset
     # dataset first in evaluation
     for _data_name in args.data_lst.split('+'):
-        pred_data_dir =  sorted(glob(os.path.join(args.pred_root, args.model_lst[0], _data_name)))
+        pred_data_dir = sorted(glob(os.path.join(args.pred_root, args.model_lst[0], _data_name)))
         if not pred_data_dir:
-            print('Skip dataset {}.'.format(_data_name))
+            print(f'Skip dataset {_data_name} because {pred_data_dir} is empty.')
+            print(f'pred data dir = {args.pred_root} / {args.model_lst[0]} / {_data_name}')
             continue
         gt_src = os.path.join(args.gt_root, _data_name)
         gt_paths = sorted(glob(os.path.join(gt_src, 'gt', '*')))
