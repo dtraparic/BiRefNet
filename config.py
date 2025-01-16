@@ -4,15 +4,17 @@ from pathlib import Path
 from user_paths import project_abs_path, data_root_abs_path
 
 class Config():
-    def __init__(self, debug=False) -> None:
+    def __init__(self, task="miniICEOD", debug=False) -> None:
         import platform
         self.sys_home_dir = project_abs_path
         self.data_root_dir = data_root_abs_path
         # self.data_root_dir = self.sys_home_dir / 'datasets' / 'dis'
 
         # TASK settings
-        self.task = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting',
-                     'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE'][-1]  # original repo= [0]
+        self.all_tasks = ['DIS5K', 'COD', 'HRSOD', 'ICE_OBJ', 'General-2K', 'Matting',
+                     'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE', 'miniICEOD'] #original repo= [0]
+        assert task in self.all_tasks
+        self.task = task
         self.testsets = {
             # Benchmarks
             'DIS5K': ','.join(['DIS-VD', 'DIS-TE1', 'DIS-TE2', 'DIS-TE3', 'DIS-TE4']),
@@ -20,10 +22,11 @@ class Config():
             'HRSOD': ','.join(['DAVIS-S', 'TE-HRSOD', 'TE-UHRSD', 'DUT-OMRON', 'TE-DUTS']),
             # Practical use
             'General': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
-            'ICEOD_DUNE': 'DICETOP-VD',
+            'ICEOD_DUNE': 'DICEDUNE-VD',
             'ICEOD_TOP': 'DICETOP-VD',
             'ICEOD_DUNE_TOP': 'DICE_DUNE_TOP-VD',
             'ICEOD_TOP_DUNE': 'DICE_TOP_DUNE-VD',
+            'miniICEOD': 'miniDICE-VD',
             'General-2K': ','.join(['DIS-VD', 'TE-P3M-500-NP']),
             'Matting': ','.join(['TE-P3M-500-NP', 'TE-AM-2k']),
         }[self.task]
@@ -33,9 +36,11 @@ class Config():
             'COD': 'TR-COD10K+TR-CAMO',
             'HRSOD': ['TR-DUTS', 'TR-HRSOD', 'TR-UHRSD', 'TR-DUTS+TR-HRSOD', 'TR-DUTS+TR-UHRSD', 'TR-HRSOD+TR-UHRSD', 'TR-DUTS+TR-HRSOD+TR-UHRSD'][5],
             'General': datasets_all,
-            'ICEOD_DUNE': 'DICETOP-TR',
+            'ICEOD_DUNE': 'DICE_DUNE-TR',
+            'ICEOD_TOP': 'DICE_TOP-TR',
             'ICEOD_DUNE_TOP': 'DICE_DUNE_TOP-TR',
             'ICEOD_TOP_DUNE': 'DICE_TOP_DUNE-TR',
+            'miniICEOD': 'miniDICE-TR',
             'General-2K': datasets_all,
             'Matting': datasets_all,
         }[self.task]
@@ -70,6 +75,7 @@ class Config():
 
         # TRAINING settings
         self.batch_size = 4  # original repo = 2
+        self.batch_size = 2  # original repo = 2
         self.finetune_last_epochs = [
             0,
             {
@@ -80,6 +86,7 @@ class Config():
                 'ICEOD_TOP': -40,
                 'ICEOD_DUNE_TOP': -40,
                 'ICEOD_TOP_DUNE': -40,
+                'miniICEOD': -40,
                 'General': -40,
                 'General-2K': -20,
                 'Matting': -20,
@@ -141,7 +148,7 @@ class Config():
                 'cnt': 5 * 0,
                 'structure': 5 * 0,
             }
-        elif self.task in ['ICEOD' 'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE', 'General-2K']:
+        elif self.task in ['ICEOD' 'ICEOD_DUNE', 'ICEOD_TOP', 'ICEOD_DUNE_TOP', 'ICEOD_TOP_DUNE', 'miniICEOD', 'General-2K']:
             self.lambdas_pix_last = {
                 'bce': 30 * 1,
                 'iou': 0.5 * 1,
@@ -195,7 +202,7 @@ class Config():
         self.SDPA_enabled = False    # Bugs. Slower and errors occur in multi-GPUs
 
         # others
-        self.device = [2, 'cpu'][0]     # .to(0) == .to('cuda:0')
+        self.device = [0, 'cpu'][0]     # .to(0) == .to('cuda:0')
 
         self.batch_size_valid = 4  # original repo = 1
         self.rand_seed = 7

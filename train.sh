@@ -12,6 +12,7 @@ case "${task}" in
     'ICEOD_TOP') epochs=250 && val_last=50 && step=2 ;;
     'ICEOD_DUNE_TOP') epochs=250 && val_last=50 && step=2 ;;
     'ICEOD_TOP_DUNE') epochs=250 && val_last=50 && step=2 ;;
+    'miniICEOD') epochs=250 && val_last=50 && step=2 ;;
     'General-2K') epochs=250 && val_last=30 && step=2 ;;
     'Matting') epochs=100 && val_last=30 && step=2 ;;
 esac
